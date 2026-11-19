@@ -29,7 +29,7 @@ steps 11-12 come after the cut line.
   - Done: the user has approved all three files.
   - Commit: `docs: bootstrap CLAUDE.md, README and roadmap`
 
-- [ ] **1. Scaffold** (10 min)
+- [x] **1. Scaffold** (10 min)
   - Goal: an empty app that runs and passes checks locally.
   - Deliverable: Vite react-ts with `strict`, ESLint, Vitest, npm scripts `dev/lint/typecheck/test/build`,
     and one smoke test. Deps are approved by the user first.

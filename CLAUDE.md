@@ -7,7 +7,7 @@ spec ambiguities.
 ## Stack
 TypeScript (strict), Vite + React, Vitest, Zod, ESLint. GitHub Actions CI, deployed to GitHub Pages.
 
-## Commands (placeholders until step 1)
+## Commands
 - `npm run dev`: start the dev server
 - `npm run lint`: run ESLint
 - `npm run typecheck`: run `tsc --noEmit`

@@ -7,13 +7,20 @@ Commander art comes from Scryfall.
 See [SPEC.md](SPEC.md) for scope and [ROADMAP.md](ROADMAP.md) for progress.
 
 ## Status
-Bootstrap: docs and roadmap only. No app code yet.
+Scaffolded: an empty Vite + React app with lint, typecheck, test and build wired up. No features yet.
 
 ## Planned stack
 TypeScript (strict), Vite + React, Vitest, Zod, with GitHub Actions CI and deploys to GitHub Pages.
 
 ## How to run
-_TBD (step 1)._
+```
+npm install
+npm run dev        # start the dev server
+npm run lint       # ESLint
+npm run typecheck  # tsc --noEmit
+npm test           # Vitest
+npm run build      # production build
+```
 
 ## Key decisions
 _TBD (step 10)._
