@@ -37,7 +37,7 @@ steps 11-12 come after the cut line.
     README "How to run" is updated.
   - Commit: `chore: scaffold vite react-ts app with vitest and eslint`
 
-- [ ] **2. CI + deploy** (10 min)
+- [x] **2. CI + deploy** (10 min)
   - Goal: a green pipeline and a live URL before any features.
   - Deliverable: GitHub Actions workflow (lint, typecheck, test, build on push/PR) and a Pages deploy job
     from `main`, plus Vite `base` set to the repo name. Branch renamed to `main`. The user creates the
