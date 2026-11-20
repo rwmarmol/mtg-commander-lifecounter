@@ -63,7 +63,7 @@ steps 11-12 come after the cut line.
     players ignore actions.
   - Commit: `feat(game): add commander damage, elimination and winner`
 
-- [ ] **5. Persistence** (10 min)
+- [x] **5. Persistence** (10 min)
   - Goal: a reload restores the match.
   - Deliverable: `src/storage/` with a `MatchStorage` interface, a localStorage adapter, a versioned Zod
     schema, and `load/save/clear`. Invalid data or a version mismatch gives `null`. Tests included.
