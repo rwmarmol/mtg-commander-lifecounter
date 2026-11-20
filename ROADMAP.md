@@ -46,7 +46,7 @@ steps 11-12 come after the cut line.
     Pages).
   - Commit: `ci: add github actions for checks and pages deploy`
 
-- [ ] **3. Reducer core** (10 min)
+- [x] **3. Reducer core** (10 min)
   - Goal: a pure match model with life changes.
   - Deliverable: `src/game/` with types, `createMatch(setup)`, reducer actions for life ±1, log entries,
     and tests.

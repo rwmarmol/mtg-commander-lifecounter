@@ -30,4 +30,5 @@ TypeScript (strict), Vite + React, Vitest, Zod, ESLint. GitHub Actions CI, deplo
 - Game logic stays a pure reducer, tested independently of the UI.
 - Keep `CLAUDE.md` and `README.md` short. Don't invent features beyond `SPEC.md`.
   If the spec is unclear, follow the defaults in `ROADMAP.md` or ask.
-- Session logs are exported to `docs/ai-log/` by hand (by the user, not Claude).
+- Session logs live in `docs/ai-log/` (`NN-step-name.md`). Claude writes one when the user asks, in the
+  format of the existing logs, and commits it separately as `docs:`.
