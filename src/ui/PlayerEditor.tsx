@@ -10,6 +10,8 @@ export const LOOKUP_DEBOUNCE_MS = 600
 
 type PlayerEditorProps = {
   player: Player
+  /** Outer corner of the grid, where the color picker sits. */
+  side: 'left' | 'right'
   onSave: (patch: PlayerSetup) => void
 }
 
@@ -18,7 +20,7 @@ type Search =
   | { status: 'failed'; query: string }
 
 /** Edits a draft of name, commander and color; nothing changes until "Done". */
-export function PlayerEditor({ player, onSave }: PlayerEditorProps) {
+export function PlayerEditor({ player, side, onSave }: PlayerEditorProps) {
   const [draft, setDraft] = useState<PlayerSetup>({
     name: player.name,
     commander: player.commander,
@@ -26,6 +28,7 @@ export function PlayerEditor({ player, onSave }: PlayerEditorProps) {
   })
   const [search, setSearch] = useState<Search | null>(null)
   // The card the player tapped in the list; typing again clears it.
+  const [colorsOpen, setColorsOpen] = useState(false)
   const [selected, setSelected] = useState<CommanderArt | null>(null)
 
   const query = draft.commander.trim()
@@ -71,51 +74,73 @@ export function PlayerEditor({ player, onSave }: PlayerEditorProps) {
 
   return (
     <div className="editor">
+      <div className={`color-picker ${side}`}>
+        <button
+          type="button"
+          className="color-toggle"
+          aria-expanded={colorsOpen}
+          onClick={() => setColorsOpen(!colorsOpen)}
+        >
+          <span className="color-dot" style={{ background: draft.color }} />
+          Background color
+        </button>
+        {colorsOpen && (
+          <div className="swatches">
+            {PLAYER_COLORS.map((color) => (
+              <button
+                key={color}
+                type="button"
+                aria-label={`Color ${color}`}
+                aria-pressed={draft.color === color}
+                className={draft.color === color ? 'swatch selected' : 'swatch'}
+                style={{ background: color }}
+                onClick={() => setDraft({ ...draft, color })}
+              />
+            ))}
+          </div>
+        )}
+      </div>
       <input
         aria-label="Name"
         placeholder="Name"
         value={draft.name}
         onChange={(e) => setDraft({ ...draft, name: e.target.value })}
       />
-      <input
-        aria-label="Commander"
-        placeholder="Commander (optional)"
-        value={draft.commander}
-        onChange={(e) => {
-          setSelected(null)
-          setDraft({ ...draft, commander: e.target.value })
-        }}
-      />
-      <div className="lookup-status" role="status">
-        {pending && 'Searching…'}
-        {!selected && current?.status === 'failed' && 'Commander not found, using color'}
+      <div className="combo">
+        <input
+          aria-label="Commander"
+          placeholder="Commander (optional)"
+          value={draft.commander}
+          onChange={(e) => {
+            setSelected(null)
+            setDraft({ ...draft, commander: e.target.value })
+          }}
+        />
+        {!selected && (pending || current) && (
+          <ul className="results" role="listbox" aria-label="Commander results">
+            {pending && (
+              <li className="results-note" role="status">
+                Searching…
+              </li>
+            )}
+            {current?.status === 'failed' && (
+              <li className="results-note" role="status">
+                Not found, using color
+              </li>
+            )}
+            {current?.status === 'found' &&
+              current.cards.map((card) => (
+                <li key={card.name} role="option" aria-selected={false}>
+                  <button type="button" className="result" onClick={() => choose(card)}>
+                    <img className="avatar" src={card.artUrl} alt="" />
+                    <span className="result-name">{card.name}</span>
+                  </button>
+                </li>
+              ))}
+          </ul>
+        )}
       </div>
-      {!selected && current?.status === 'found' && (
-        <ul className="results">
-          {current.cards.map((card) => (
-            <li key={card.name}>
-              <button type="button" className="result" onClick={() => choose(card)}>
-                <img className="avatar" src={card.artUrl} alt="" />
-                <span className="result-name">{card.name}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-      <div className="swatches">
-        {PLAYER_COLORS.map((color) => (
-          <button
-            key={color}
-            type="button"
-            aria-label={`Color ${color}`}
-            aria-pressed={draft.color === color}
-            className={draft.color === color ? 'swatch selected' : 'swatch'}
-            style={{ background: color }}
-            onClick={() => setDraft({ ...draft, color })}
-          />
-        ))}
-      </div>
-      <button type="button" className="overlay-button" onClick={save}>
+      <button type="button" className="overlay-button small" onClick={save}>
         Done
       </button>
     </div>

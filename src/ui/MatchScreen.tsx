@@ -40,6 +40,7 @@ export function MatchScreen({ initialMatch, storage }: MatchScreenProps) {
           player={player}
           players={match.players}
           rotated={i < 2}
+          side={i === 1 || i === 2 ? 'left' : 'right'}
           mode={!receiver ? 'normal' : receiver.id === player.id ? 'receiving' : 'source'}
           receiver={receiver}
           onEnterDamageMode={() => setReceiverId(player.id)}
@@ -55,8 +56,12 @@ export function MatchScreen({ initialMatch, storage }: MatchScreenProps) {
           }
         />
       ))}
-      <button type="button" className="menu-button" onClick={() => setMenuOpen(true)}>
-        Menu
+      <button type="button" className="menu-button" aria-label="Menu" onClick={() => setMenuOpen(true)}>
+        <svg viewBox="0 0 100 100" width="100%" height="100%" aria-hidden="true">
+          <polygon points="50,3 93,27 93,73 50,97 7,73 7,27" fill="#111" stroke="#fff" strokeWidth="4" strokeLinejoin="round" />
+          <path d="M50,3 L93,73 M50,3 L7,73 M7,27 L93,27 M7,73 L93,73" stroke="#fff" strokeWidth="1" opacity="0.25" fill="none" />
+          <path d="M30,38 H70 M30,50 H70 M30,62 H70" stroke="#fff" strokeWidth="6" strokeLinecap="round" />
+        </svg>
       </button>
       {menuOpen && !winner && (
         <div className="overlay" role="dialog" aria-label="Menu">

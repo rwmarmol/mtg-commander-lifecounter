@@ -10,6 +10,8 @@ type PlayerPanelProps = {
   /** All players, used to name the sources of commander damage badges. */
   players: readonly Player[]
   rotated: boolean
+  /** Outer corner of the grid, in the panel's own frame; away from the center menu. */
+  side: 'left' | 'right'
   mode: PanelMode
   /** The player receiving damage while in damage mode. */
   receiver: Player | null
@@ -25,6 +27,7 @@ export function PlayerPanel({
   player,
   players,
   rotated,
+  side,
   mode,
   receiver,
   onLifeChange,
@@ -63,7 +66,7 @@ export function PlayerPanel({
       )}
       <button
         type="button"
-        className="zone"
+        className="zone minus"
         aria-label={`${player.name} minus 1 ${mode === 'source' ? 'commander damage' : 'life'}`}
         disabled={zonesDisabled}
         onClick={() => onZone(-1)}
@@ -72,7 +75,7 @@ export function PlayerPanel({
       </button>
       <button
         type="button"
-        className="zone"
+        className="zone plus"
         aria-label={`${player.name} plus 1 ${mode === 'source' ? 'commander damage' : 'life'}`}
         disabled={zonesDisabled}
         onClick={() => onZone(1)}
@@ -124,6 +127,7 @@ export function PlayerPanel({
       {editing && (
         <PlayerEditor
           player={player}
+          side={side}
           onSave={(patch) => {
             onUpdate(patch)
             setEditing(false)
