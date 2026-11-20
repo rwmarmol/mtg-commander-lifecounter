@@ -11,6 +11,11 @@ body,
   margin: 0;
 }
 
+/* Fonts: change the family here (and the Google Fonts link in index.html) to swap them. */
 body {
-  font-family: system-ui, sans-serif;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.number {
+  font-family: 'Firjar', sans-serif;
 }

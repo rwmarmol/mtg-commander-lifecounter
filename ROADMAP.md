@@ -72,7 +72,7 @@ steps 11-12 come after the cut line.
     (AC 9, logic side).
   - Commit: `feat(storage): persist match in localStorage with zod validation`
 
-- [ ] **6. Setup screen** (10 min)
+- [x] **6. Setup screen** (10 min)
   - Goal: start a match from the UI.
   - Deliverable: four rows, each with a name, commander (free text) and a color from the preset palette.
     "Start" creates the match and saves it.

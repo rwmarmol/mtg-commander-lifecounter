@@ -1,0 +1,53 @@
+.setup {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.setup h1 {
+  margin: 0 0 16px;
+  font-size: 1.5rem;
+}
+
+.setup-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.setup-row input {
+  flex: 1 1 160px;
+  padding: 8px;
+  font: inherit;
+}
+
+.setup-colors {
+  display: flex;
+  gap: 6px;
+}
+
+.swatch {
+  width: 28px;
+  height: 28px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.swatch.selected {
+  border-color: #000;
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+}
+
+.start {
+  margin-top: 8px;
+  padding: 12px 32px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
