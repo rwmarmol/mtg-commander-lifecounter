@@ -14,6 +14,7 @@ export function createMatch(setup: MatchSetup): MatchState {
       name: p.name,
       commander: p.commander,
       color: p.color,
+      artUrl: p.artUrl ?? null,
       life: STARTING_LIFE,
       commanderDamage: {},
     })),

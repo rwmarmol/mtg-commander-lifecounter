@@ -15,7 +15,8 @@ steps 11-12 come after the cut line.
    (no life given back).
 5. **Damage mode:** one receiving panel at a time. This is UI state and isn't persisted. Damage *from*
    eliminated opponents can still be adjusted.
-6. **Scryfall:** look up via `/cards/named?fuzzy=` on blur and on Start. Results are cached in memory by
+6. **Scryfall:** look up via `/cards/named?fuzzy=` while typing in the panel editor, debounced (600 ms), as a list of up to 5 results (name + round avatar; search first, fuzzy as typo fallback) to respect the
+   rate limit; "Done" uses the result for the text currently typed. Results are cached in memory by
    normalized name. The resolved name and art URL are stored in the persisted match. A failure or
    ambiguous result falls back to the player's color. No API key or `.env` is needed.
 7. **Players:** there is no setup screen. The app opens on the match grid with "Player N" names and a
@@ -106,7 +107,7 @@ steps 11-12 come after the cut line.
     shows up.
   - Commit: `feat(ui): add new game menu, winner screen and portrait notice`
 
-- [ ] **10. README + AC pass** (5 min)
+- [x] **10. README + AC pass** (5 min)
   - Goal: a submittable deliverable even without art.
   - Deliverable: README with "How to run", "Key decisions" and "What I left out and why".
   - Done: every AC is re-checked (except the Scryfall ones) and the README explains the decisions
@@ -116,7 +117,7 @@ steps 11-12 come after the cut line.
 ---
 **✂️ Cut line: cut first if late. Everything below is optional for submission.**
 
-- [ ] **11. Scryfall client** ✂️ CUT FIRST IF LATE (10 min)
+- [x] **11. Scryfall client** ✂️ CUT FIRST IF LATE (10 min)
   - Goal: resolve commander names to art.
   - Deliverable: `src/scryfall/` with `lookupCommander(name)` using fuzzy search. It returns the resolved
     name and `art_crop`, falling back to `card_faces[0]` for double-faced cards. Results are cached in
@@ -125,7 +126,7 @@ steps 11-12 come after the cut line.
     don't throw (part of AC 7).
   - Commit: `feat(scryfall): add commander lookup client`
 
-- [ ] **12. Commander art in UI** ✂️ CUT FIRST IF LATE (10 min)
+- [x] **12. Commander art in UI** ✂️ CUT FIRST IF LATE (10 min)
   - Goal: art backgrounds on panels.
   - Deliverable: setup looks up commanders on blur and on Start, with loading and error indicators. The
     resolved art URL is stored in the match. Panels use the art as their background with a dark overlay,

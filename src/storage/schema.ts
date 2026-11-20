@@ -11,6 +11,7 @@ const playerSchema = z.object({
   name: z.string(),
   commander: z.string(),
   color: z.string(),
+  artUrl: z.string().nullable().default(null),
   life: z.number().int(),
   commanderDamage: z.record(z.string(), z.number().int().min(0)),
 });
@@ -32,7 +33,7 @@ const logEntrySchema = z.discriminatedUnion('type', [
   }),
 ]);
 
-const matchSchema: z.ZodType<MatchState> = z.object({
+const matchSchema: z.ZodType<MatchState, unknown> = z.object({
   players: z.array(playerSchema).length(PLAYER_COUNT),
   log: z.array(logEntrySchema),
 });
