@@ -79,7 +79,7 @@ steps 11-12 come after the cut line.
   - Done: starting a match by hand shows 4 players at 40. A reload goes straight back to the match.
   - Commit: `feat(ui): add setup screen`
 
-- [ ] **7. Match screen** (10 min)
+- [x] **7. Match screen** (10 min)
   - Goal: a table-ready layout.
   - Deliverable: 2×2 landscape grid with the top row rotated 180°. Left and right half-panel tap zones
     give -1 and +1. Each panel shows a big life total and a one-line name and commander. Eliminated

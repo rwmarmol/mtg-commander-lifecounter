@@ -1,0 +1,82 @@
+.match {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  height: 100%;
+  gap: 4px;
+  background: #111;
+}
+
+.panel {
+  position: relative;
+  display: flex;
+  color: #fff;
+  overflow: hidden;
+  user-select: none;
+}
+
+.panel.rotated {
+  transform: rotate(180deg);
+}
+
+.panel.eliminated {
+  opacity: 0.35;
+}
+
+.zone {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.zone:active:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.zone:disabled {
+  cursor: default;
+}
+
+.sign {
+  font-size: 2.5rem;
+  opacity: 0.6;
+}
+
+.zone:first-child .sign {
+  float: left;
+  margin-left: 16px;
+}
+
+.zone:nth-child(2) .sign {
+  float: right;
+  margin-right: 16px;
+}
+
+.info {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.life {
+  font-size: 22vh;
+  line-height: 1;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.label {
+  max-width: 90%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
