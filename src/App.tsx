@@ -13,6 +13,19 @@ export function App({ storage }: AppProps) {
   const [store] = useState(() => storage ?? createLocalStorageMatchStorage())
   const [match, setMatch] = useState<MatchState | null>(() => store.load())
 
-  if (!match) return <SetupScreen onStart={setMatch} />
-  return <MatchScreen initialMatch={match} storage={store} />
+  const newGame = () => {
+    store.clear()
+    setMatch(null)
+  }
+
+  return (
+    <>
+      {match ? (
+        <MatchScreen initialMatch={match} storage={store} onNewGame={newGame} />
+      ) : (
+        <SetupScreen onStart={setMatch} />
+      )}
+      <div className="rotate-notice">Rotate your device to landscape</div>
+    </>
+  )
 }

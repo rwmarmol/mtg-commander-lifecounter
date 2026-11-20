@@ -96,7 +96,7 @@ steps 11-12 come after the cut line.
   - Done: checked by hand against AC 3 and AC 4 in the UI.
   - Commit: `feat(ui): add commander damage mode and badges`
 
-- [ ] **9. Menu, winner, portrait** (10 min)
+- [x] **9. Menu, winner, portrait** (10 min)
   - Goal: complete the game loop.
   - Deliverable: a center menu button with "New game", which clears the persisted match and returns to
     setup. A winner screen with congratulations and "New game". A "rotate your device" notice in portrait.

@@ -126,3 +126,55 @@
   color: #111;
   font-weight: 700;
 }
+
+.menu-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 72px;
+  height: 72px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.match {
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  text-align: center;
+}
+
+.overlay-button {
+  padding: 12px 28px;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: #111;
+  font: inherit;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.overlay-button.secondary {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+}
