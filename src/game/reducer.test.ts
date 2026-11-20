@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createMatch } from './createMatch';
 import { matchReducer } from './reducer';
+import { isEliminated } from './selectors';
 import type { MatchState } from './types';
 
 const newMatch = (): MatchState =>
@@ -105,5 +106,81 @@ describe('matchReducer life/adjust', () => {
       delta: 1,
     });
     expect(JSON.parse(JSON.stringify(after))).toEqual(after);
+  });
+});
+
+describe('matchReducer player/update', () => {
+  it('updates name, commander and color of one player only', () => {
+    const before = deepFreeze(newMatch());
+    const id = before.players[1]!.id;
+    const after = matchReducer(before, {
+      type: 'player/update',
+      playerId: id,
+      patch: { name: '  Ana ', commander: ' Atraxa ', color: '#fff' },
+    });
+    expect(after.players[1]).toMatchObject({ name: 'Ana', commander: 'Atraxa', color: '#fff' });
+    expect(after.players[0]).toBe(before.players[0]);
+  });
+
+  it('falls back to "Player N" for a blank name', () => {
+    const before = newMatch();
+    const after = matchReducer(before, {
+      type: 'player/update',
+      playerId: before.players[2]!.id,
+      patch: { name: '   ' },
+    });
+    expect(after.players[2]!.name).toBe('Player 3');
+  });
+});
+
+describe('matchReducer player/revive', () => {
+  it('revives a player at 0 life with 1 life, and they die again at 0', () => {
+    let state = newMatch();
+    const id = state.players[0]!.id;
+    for (let i = 0; i < 40; i++) state = matchReducer(state, { type: 'life/adjust', playerId: id, delta: -1 });
+    expect(isEliminated(state.players[0]!)).toBe(true);
+
+    state = matchReducer(deepFreeze(state), { type: 'player/revive', playerId: id });
+    expect(state.players[0]!.life).toBe(1);
+    expect(isEliminated(state.players[0]!)).toBe(false);
+
+    state = matchReducer(state, { type: 'life/adjust', playerId: id, delta: -1 });
+    expect(isEliminated(state.players[0]!)).toBe(true);
+  });
+
+  it('revives a player eliminated by commander damage, at 20 damage', () => {
+    let state = newMatch();
+    const [a, b] = [state.players[0]!.id, state.players[1]!.id];
+    for (let i = 0; i < 21; i++)
+      state = matchReducer(state, { type: 'damage/adjust', sourceId: a, targetId: b, delta: 1 });
+    expect(isEliminated(state.players[1]!)).toBe(true);
+
+    state = matchReducer(state, { type: 'player/revive', playerId: b });
+    expect(state.players[1]!.commanderDamage[a]).toBe(20);
+    expect(state.players[1]!.life).toBe(19);
+    expect(isEliminated(state.players[1]!)).toBe(false);
+
+    state = matchReducer(state, { type: 'damage/adjust', sourceId: a, targetId: b, delta: 1 });
+    expect(isEliminated(state.players[1]!)).toBe(true);
+  });
+
+  it('does nothing for a player who is still alive', () => {
+    const before = newMatch();
+    expect(matchReducer(before, { type: 'player/revive', playerId: before.players[0]!.id })).toBe(before);
+  });
+});
+
+describe('matchReducer match/reset', () => {
+  it('keeps the players but resets life, damage and log', () => {
+    let state = newMatch();
+    const [a, b] = [state.players[0]!.id, state.players[1]!.id];
+    state = matchReducer(state, { type: 'damage/adjust', sourceId: a, targetId: b, delta: 1 });
+    state = matchReducer(state, { type: 'player/update', playerId: a, patch: { name: 'Ana', color: '#fff' } });
+
+    const after = matchReducer(state, { type: 'match/reset' });
+    expect(after.log).toEqual([]);
+    expect(after.players.map((p) => p.life)).toEqual([40, 40, 40, 40]);
+    expect(after.players.every((p) => Object.keys(p.commanderDamage).length === 0)).toBe(true);
+    expect(after.players[0]).toMatchObject({ id: a, name: 'Ana', color: '#fff' });
   });
 });

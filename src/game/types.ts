@@ -47,4 +47,7 @@ export type MatchState = {
 
 export type MatchAction =
   | { type: 'life/adjust'; playerId: PlayerId; delta: LifeDelta }
-  | { type: 'damage/adjust'; sourceId: PlayerId; targetId: PlayerId; delta: LifeDelta };
+  | { type: 'damage/adjust'; sourceId: PlayerId; targetId: PlayerId; delta: LifeDelta }
+  | { type: 'player/update'; playerId: PlayerId; patch: Partial<PlayerSetup> }
+  | { type: 'player/revive'; playerId: PlayerId }
+  | { type: 'match/reset' };
