@@ -22,10 +22,21 @@ export type Player = {
 
 export type LifeDelta = 1 | -1;
 
-export type LogEntry = {
+export type LifeLogEntry = {
   type: 'life';
   playerId: PlayerId;
   delta: LifeDelta;
+  resultingLife: number;
+};
+
+export type LogEntry = LifeLogEntry | DamageLogEntry;
+
+export type DamageLogEntry = {
+  type: 'damage';
+  sourceId: PlayerId;
+  targetId: PlayerId;
+  delta: LifeDelta;
+  resultingDamage: number;
   resultingLife: number;
 };
 
@@ -34,8 +45,6 @@ export type MatchState = {
   log: LogEntry[];
 };
 
-export type MatchAction = {
-  type: 'life/adjust';
-  playerId: PlayerId;
-  delta: LifeDelta;
-};
+export type MatchAction =
+  | { type: 'life/adjust'; playerId: PlayerId; delta: LifeDelta }
+  | { type: 'damage/adjust'; sourceId: PlayerId; targetId: PlayerId; delta: LifeDelta };

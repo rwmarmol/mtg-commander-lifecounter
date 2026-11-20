@@ -82,13 +82,13 @@ describe('matchReducer life/adjust', () => {
     expect(after.players[3]).toBe(before.players[3]);
   });
 
-  it('lets life go below 0 (no floor, ROADMAP decision 4)', () => {
+  it('has no life cap and locks the player once life reaches 0 (ROADMAP decision 4)', () => {
     let state = newMatch();
     const id = state.players[0]!.id;
-    for (let i = 0; i < 41; i++) {
+    for (let i = 0; i < 45; i++) {
       state = matchReducer(state, { type: 'life/adjust', playerId: id, delta: -1 });
     }
-    expect(state.players[0]!.life).toBe(-1);
+    expect(state.players[0]!.life).toBe(0);
   });
 
   it('returns the same state for an unknown player id', () => {
