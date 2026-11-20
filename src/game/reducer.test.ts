@@ -122,6 +122,21 @@ describe('matchReducer player/update', () => {
     expect(after.players[0]).toBe(before.players[0]);
   });
 
+  it('stores art on update, keeps it across New game, and clears it with null', () => {
+    let state = newMatch();
+    const id = state.players[0]!.id;
+    state = matchReducer(state, {
+      type: 'player/update',
+      playerId: id,
+      patch: { artUrl: 'https://img/a.jpg' },
+    });
+    expect(state.players[0]!.artUrl).toBe('https://img/a.jpg');
+    state = matchReducer(state, { type: 'match/reset' });
+    expect(state.players[0]!.artUrl).toBe('https://img/a.jpg');
+    state = matchReducer(state, { type: 'player/update', playerId: id, patch: { artUrl: null } });
+    expect(state.players[0]!.artUrl).toBeNull();
+  });
+
   it('falls back to "Player N" for a blank name', () => {
     const before = newMatch();
     const after = matchReducer(before, {

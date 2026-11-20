@@ -56,7 +56,7 @@ export function matchReducer(state: MatchState, action: MatchAction): MatchState
      case 'player/update': {
       const index = state.players.findIndex((p) => p.id === action.playerId);
       if (index < 0) return state;
-      const { name, commander, color } = action.patch;
+      const { name, commander, color, artUrl } = action.patch;
       return {
         ...state,
         players: state.players.map((p, i) =>
@@ -66,6 +66,7 @@ export function matchReducer(state: MatchState, action: MatchAction): MatchState
                 name: name === undefined ? p.name : name.trim() || `Player ${i + 1}`,
                 commander: commander === undefined ? p.commander : commander.trim(),
                 color: color ?? p.color,
+                artUrl: artUrl === undefined ? p.artUrl : artUrl,
               }
             : p,
         ),

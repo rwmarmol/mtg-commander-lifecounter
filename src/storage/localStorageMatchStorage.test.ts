@@ -36,6 +36,21 @@ describe('createLocalStorageMatchStorage', () => {
     expect(storage.load()).toEqual(state);
   });
 
+  it('loads a match saved before art existed, with no art', () => {
+    const store = fakeStore();
+    const state = playedMatch();
+    const legacy = {
+      version: STORAGE_VERSION,
+      match: {
+        ...state,
+        players: state.players.map((p) => Object.fromEntries(Object.entries(p).filter(([k]) => k !== 'artUrl'))),
+      },
+    };
+    store.setItem(STORAGE_KEY, JSON.stringify(legacy));
+    const loaded = createLocalStorageMatchStorage(store).load();
+    expect(loaded?.players.every((p) => p.artUrl === null)).toBe(true);
+  });
+
   it('returns null when nothing is stored', () => {
     expect(createLocalStorageMatchStorage(fakeStore()).load()).toBeNull();
   });

@@ -12,6 +12,7 @@
   display: flex;
   color: #fff;
   overflow: hidden;
+  isolation: isolate; /* keeps the art (z-index -1) inside the panel, behind the controls */
   user-select: none;
 }
 
@@ -21,6 +22,25 @@
 
 .panel.eliminated {
   opacity: 0.35;
+}
+
+.art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  /* Darkened so the life total stays legible over any art. */
+  filter: brightness(0.45);
+  pointer-events: none;
+}
+
+
+.lookup-status {
+  min-height: 1.2em;
+  font-size: 0.8rem;
+  color: #fff;
 }
 
 .zone {

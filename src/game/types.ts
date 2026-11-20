@@ -4,6 +4,8 @@ export type PlayerSetup = {
   name: string;
   commander: string;
   color: string;
+  /** Resolved commander art URL (Scryfall). Absent or null means: use the color. */
+  artUrl?: string | null;
 };
 
 export type MatchSetup = {
@@ -15,6 +17,7 @@ export type Player = {
   name: string;
   commander: string;
   color: string;
+  artUrl: string | null;
   life: number;
   /** Damage received, keyed by the source player's id. */
   commanderDamage: Record<PlayerId, number>;

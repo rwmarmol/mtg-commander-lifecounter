@@ -53,6 +53,14 @@ export function PlayerPanel({
 
   return (
     <section className={className} style={{ background: player.color }}>
+      {player.artUrl && (
+        <img
+          className="art"
+          src={player.artUrl}
+          alt=""
+          onError={(e) => e.currentTarget.remove()}
+        />
+      )}
       <button
         type="button"
         className="zone"
