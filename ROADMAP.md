@@ -106,7 +106,7 @@ steps 11-12 come after the cut line.
     shows up.
   - Commit: `feat(ui): add new game menu, winner screen and portrait notice`
 
-- [ ] **10. README + AC pass** (5 min)
+- [x] **10. README + AC pass** (5 min)
   - Goal: a submittable deliverable even without art.
   - Deliverable: README with "How to run", "Key decisions" and "What I left out and why".
   - Done: every AC is re-checked (except the Scryfall ones) and the README explains the decisions
