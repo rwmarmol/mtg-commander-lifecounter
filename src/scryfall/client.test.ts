@@ -9,8 +9,8 @@ function json(body: unknown, status = 200) {
 }
 
 function clientWith(impl: () => Promise<Response>) {
-  const fetchMock = vi.fn((_url: string, _init?: RequestInit) => impl());
-  return { fetchMock, client: createScryfallClient(fetchMock as unknown as typeof fetch) };
+  const fetchMock = vi.fn<typeof fetch>(impl);
+  return { fetchMock, client: createScryfallClient(fetchMock) };
 }
 
 describe('lookupCommander', () => {
@@ -58,7 +58,7 @@ describe('lookupCommander', () => {
       .fn()
       .mockRejectedValueOnce(new Error('offline'))
       .mockResolvedValueOnce(json({ name: 'Atraxa', image_uris: { art_crop: ART } }));
-    const client = createScryfallClient(fetchMock as unknown as typeof fetch);
+    const client = createScryfallClient(fetchMock);
     expect(await client.lookupCommander('atraxa')).toEqual({ ok: false, error: 'network' });
     expect((await client.lookupCommander('atraxa')).ok).toBe(true);
   });
