@@ -116,7 +116,7 @@ steps 11-12 come after the cut line.
 ---
 **✂️ Cut line: cut first if late. Everything below is optional for submission.**
 
-- [ ] **11. Scryfall client** ✂️ CUT FIRST IF LATE (10 min)
+- [x] **11. Scryfall client** ✂️ CUT FIRST IF LATE (10 min)
   - Goal: resolve commander names to art.
   - Deliverable: `src/scryfall/` with `lookupCommander(name)` using fuzzy search. It returns the resolved
     name and `art_crop`, falling back to `card_faces[0]` for double-faced cards. Results are cached in
