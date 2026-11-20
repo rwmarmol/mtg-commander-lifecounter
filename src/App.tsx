@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import type { MatchState } from './game'
 import { createLocalStorageMatchStorage } from './storage'
 import type { MatchStorage } from './storage'
 import { MatchScreen } from './ui/MatchScreen'
-import { SetupScreen } from './ui/SetupScreen'
+import { createDefaultMatch } from './ui/defaultMatch'
 
 type AppProps = {
   storage?: MatchStorage
@@ -11,20 +10,11 @@ type AppProps = {
 
 export function App({ storage }: AppProps) {
   const [store] = useState(() => storage ?? createLocalStorageMatchStorage())
-  const [match, setMatch] = useState<MatchState | null>(() => store.load())
-
-  const newGame = () => {
-    store.clear()
-    setMatch(null)
-  }
+  const [initialMatch] = useState(() => store.load() ?? createDefaultMatch())
 
   return (
     <>
-      {match ? (
-        <MatchScreen initialMatch={match} storage={store} onNewGame={newGame} />
-      ) : (
-        <SetupScreen onStart={setMatch} />
-      )}
+      <MatchScreen initialMatch={initialMatch} storage={store} />
       <div className="rotate-notice">Rotate your device to landscape</div>
     </>
   )

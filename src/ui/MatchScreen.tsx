@@ -9,10 +9,9 @@ import './MatchScreen.css'
 type MatchScreenProps = {
   initialMatch: MatchState
   storage: MatchStorage
-  onNewGame: () => void
 }
 
-export function MatchScreen({ initialMatch, storage, onNewGame }: MatchScreenProps) {
+export function MatchScreen({ initialMatch, storage }: MatchScreenProps) {
   const [match, dispatch] = useReducer(matchReducer, initialMatch)
 
   // Damage mode is UI-only state. It ends on its own if the receiver is eliminated.
@@ -22,6 +21,12 @@ export function MatchScreen({ initialMatch, storage, onNewGame }: MatchScreenPro
 
   const [menuOpen, setMenuOpen] = useState(false)
   const winner = getWinner(match)
+
+  function newGame() {
+    dispatch({ type: 'match/reset' })
+    setReceiverId(null)
+    setMenuOpen(false)
+  }
 
   useEffect(() => {
     storage.save(match)
@@ -39,6 +44,8 @@ export function MatchScreen({ initialMatch, storage, onNewGame }: MatchScreenPro
           receiver={receiver}
           onEnterDamageMode={() => setReceiverId(player.id)}
           onExitDamageMode={() => setReceiverId(null)}
+          onUpdate={(patch) => dispatch({ type: 'player/update', playerId: player.id, patch })}
+          onRevive={() => dispatch({ type: 'player/revive', playerId: player.id })}
           onDamageChange={(delta) =>
             receiver &&
             dispatch({ type: 'damage/adjust', sourceId: player.id, targetId: receiver.id, delta })
@@ -53,7 +60,7 @@ export function MatchScreen({ initialMatch, storage, onNewGame }: MatchScreenPro
       </button>
       {menuOpen && !winner && (
         <div className="overlay" role="dialog" aria-label="Menu">
-          <button type="button" className="overlay-button" onClick={onNewGame}>
+          <button type="button" className="overlay-button" onClick={newGame}>
             New game
           </button>
           <button type="button" className="overlay-button secondary" onClick={() => setMenuOpen(false)}>
@@ -64,7 +71,7 @@ export function MatchScreen({ initialMatch, storage, onNewGame }: MatchScreenPro
       {winner && (
         <div className="overlay" role="dialog" aria-label="Winner">
           <h1>Congratulations, {winner.name}!</h1>
-          <button type="button" className="overlay-button" onClick={onNewGame}>
+          <button type="button" className="overlay-button" onClick={newGame}>
             New game
           </button>
         </div>

@@ -9,7 +9,8 @@ steps 11-12 come after the cut line.
    tested. There is **no log UI** (that's out of scope).
 2. **Branch:** rename `master` → `main` (AC: "CI green on main").
 3. **Elimination** is derived from life and damage, never stored. An eliminated panel is dimmed and its
-   controls and "Commander damage" button are disabled. No undo or revival.
+   controls and "Commander damage" button are disabled; only "Revive" (life ≥ 1, lethal damage lowered
+   to 20) is active. No undo.
 4. **Bounds:** life has no cap and can go below 0. Damage per pair is ≥ 0, and "-" at 0 is a no-op
    (no life given back).
 5. **Damage mode:** one receiving panel at a time. This is UI state and isn't persisted. Damage *from*
@@ -17,8 +18,9 @@ steps 11-12 come after the cut line.
 6. **Scryfall:** look up via `/cards/named?fuzzy=` on blur and on Start. Results are cached in memory by
    normalized name. The resolved name and art URL are stored in the persisted match. A failure or
    ambiguous result falls back to the player's color. No API key or `.env` is needed.
-7. **Setup:** blank names default to "Player N". Commander is optional. Each player starts with a
-   distinct preset color.
+7. **Players:** there is no setup screen. The app opens on the match grid with "Player N" names and a
+   distinct preset color each; a tap on a panel's name edits name, commander and color. Blank names
+   default to "Player N". "New game" keeps the players and resets the counters.
 8. **Tests:** reducer, storage and Scryfall only. No RTL or jsdom. The UI is checked by hand.
 
 ---
@@ -72,7 +74,7 @@ steps 11-12 come after the cut line.
     (AC 9, logic side).
   - Commit: `feat(storage): persist match in localStorage with zod validation`
 
-- [x] **6. Setup screen** (10 min)
+- [x] **6. Setup screen** (10 min) _(later replaced by in-panel editing, see decision 7)_
   - Goal: start a match from the UI.
   - Deliverable: four rows, each with a name, commander (free text) and a color from the preset palette.
     "Start" creates the match and saves it.

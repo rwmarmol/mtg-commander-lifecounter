@@ -12,12 +12,16 @@ intentionally small, UI-first.
 - Commander damage: tracked per (source -> target) pair. Adding damage also
   lowers the target's life by the same amount; removing it gives that life back.
 - A player is eliminated at life <= 0 OR 21+ commander damage from a single
-  opponent. Eliminated panels are dimmed and locked.
+  opponent. Eliminated panels are dimmed and locked, except for a "Revive"
+  button: it sets life to at least 1 and lowers any lethal commander damage
+  to 20. The player is eliminated again if a counter hits the limit again.
 - The match ends when one player remains: winner screen + "New game".
 
 ## Must have
-1. Setup screen: per player, name, commander name (free text, resolved via
-   Scryfall fuzzy lookup) and fallback background color (preset palette).
+1. No setup screen: the app always opens on the match grid (4 default
+   players, 40 life). Tapping a panel's name edits that player's name,
+   commander name (free text, resolved via Scryfall fuzzy lookup) and
+   fallback background color (preset palette) in place.
 2. Match screen (landscape): 2x2 grid. Top row panels rotated 180deg so each
    player reads their panel upright; bottom row upright. Controls rotate
    with the panel: "+" is always on the reader's right, "-" on the left.
@@ -33,7 +37,8 @@ intentionally small, UI-first.
    player color, double-faced cards (image under card_faces), cache results.
 6. Persistence: current match (setup + life + damage + log) in localStorage;
    reload restores it.
-7. Center menu button: "New game" (clears persisted match).
+7. Center menu button: "New game" keeps the players (names, commanders,
+   colors) and resets life, commander damage and log.
 8. End of game: winner screen with congratulations.
 9. Portrait orientation shows a "rotate your device" notice.
 
@@ -66,9 +71,11 @@ intentionally small, UI-first.
       opponent to the receiving player and adjusts the receiver's life.
 - [ ] 21 damage from one opponent eliminates the target, as does life <= 0.
 - [ ] Last player standing triggers the winner screen.
+- [ ] "Revive" brings back a player eliminated by life or commander damage.
 - [ ] Top-row panels are readable from the opposite side of the table.
 - [ ] Typo'd commander name still resolves; a failed lookup keeps the color
       background and doesn't block the match.
 - [ ] Life number stays legible over any commander art.
-- [ ] Reload mid-match restores the exact state; "New game" clears it.
+- [ ] Reload mid-match restores the exact state; "New game" resets the counters
+      and keeps the players.
 - [ ] CI green on main; app live on Pages; README explains decisions.

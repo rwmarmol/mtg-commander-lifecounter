@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { COMMANDER_DAMAGE_LETHAL, isEliminated } from '../game'
-import type { LifeDelta, Player } from '../game'
+import type { LifeDelta, Player, PlayerSetup } from '../game'
+import { PlayerEditor } from './PlayerEditor'
 
 export type PanelMode = 'normal' | 'receiving' | 'source'
 
@@ -15,6 +17,8 @@ type PlayerPanelProps = {
   onDamageChange: (delta: LifeDelta) => void
   onEnterDamageMode: () => void
   onExitDamageMode: () => void
+  onUpdate: (patch: PlayerSetup) => void
+  onRevive: () => void
 }
 
 export function PlayerPanel({
@@ -27,7 +31,10 @@ export function PlayerPanel({
   onDamageChange,
   onEnterDamageMode,
   onExitDamageMode,
+  onUpdate,
+  onRevive,
 }: PlayerPanelProps) {
+  const [editing, setEditing] = useState(false)
   const eliminated = isEliminated(player)
   const className = ['panel', rotated ? 'rotated' : '', eliminated ? 'eliminated' : '']
     .filter(Boolean)
@@ -73,7 +80,9 @@ export function PlayerPanel({
         ) : (
           <>
             <div className="life number">{player.life}</div>
-            <div className="label">{label}</div>
+            <button type="button" className="label edit" onClick={() => setEditing(true)}>
+              {label}
+            </button>
             {badges.length > 0 && (
               <div className="badges">
                 {badges.map((b) => (
@@ -94,15 +103,24 @@ export function PlayerPanel({
           Return to game
         </button>
       )}
-      {mode === 'normal' && (
-        <button
-          type="button"
-          className="mode-button"
-          disabled={eliminated}
-          onClick={onEnterDamageMode}
-        >
+      {mode === 'normal' && eliminated && (
+        <button type="button" className="mode-button return" onClick={onRevive}>
+          Revive
+        </button>
+      )}
+      {mode === 'normal' && !eliminated && (
+        <button type="button" className="mode-button" onClick={onEnterDamageMode}>
           Commander damage
         </button>
+      )}
+      {editing && (
+        <PlayerEditor
+          player={player}
+          onSave={(patch) => {
+            onUpdate(patch)
+            setEditing(false)
+          }}
+        />
       )}
     </section>
   )
