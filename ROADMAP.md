@@ -72,14 +72,14 @@ steps 11-12 come after the cut line.
     (AC 9, logic side).
   - Commit: `feat(storage): persist match in localStorage with zod validation`
 
-- [ ] **6. Setup screen** (10 min)
+- [x] **6. Setup screen** (10 min)
   - Goal: start a match from the UI.
   - Deliverable: four rows, each with a name, commander (free text) and a color from the preset palette.
     "Start" creates the match and saves it.
   - Done: starting a match by hand shows 4 players at 40. A reload goes straight back to the match.
   - Commit: `feat(ui): add setup screen`
 
-- [ ] **7. Match screen** (10 min)
+- [x] **7. Match screen** (10 min)
   - Goal: a table-ready layout.
   - Deliverable: 2×2 landscape grid with the top row rotated 180°. Left and right half-panel tap zones
     give -1 and +1. Each panel shows a big life total and a one-line name and commander. Eliminated

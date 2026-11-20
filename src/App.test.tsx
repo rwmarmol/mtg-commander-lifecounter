@@ -1,9 +1,12 @@
 import { renderToString } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 import { App } from './App'
+import type { MatchStorage } from './storage'
+
+const emptyStorage: MatchStorage = { load: () => null, save: () => {}, clear: () => {} }
 
 describe('App', () => {
-  it('renders the title', () => {
-    expect(renderToString(<App />)).toContain('MTG Commander Life Counter')
+  it('shows the setup screen when no match is saved', () => {
+    expect(renderToString(<App storage={emptyStorage} />)).toContain('Start')
   })
 })
