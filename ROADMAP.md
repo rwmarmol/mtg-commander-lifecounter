@@ -54,7 +54,7 @@ steps 11-12 come after the cut line.
     the intended player and appends a log entry (AC 2).
   - Commit: `feat(game): add pure match reducer with life changes`
 
-- [ ] **4. Commander damage + elimination** (10 min)
+- [x] **4. Commander damage + elimination** (10 min)
   - Goal: full game rules in the reducer.
   - Deliverable: damage ±1 per (source → target) that moves the target's life by the same amount,
     selectors for eliminated players and the winner, and tests.
