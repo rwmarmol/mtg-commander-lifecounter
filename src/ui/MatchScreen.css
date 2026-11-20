@@ -80,3 +80,49 @@
   font-weight: 600;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 6px;
+  max-width: 90%;
+}
+
+.badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.badge.lethal {
+  background: #d32f2f;
+}
+
+.mode-button {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.mode-button:disabled {
+  display: none;
+}
+
+.mode-button.return {
+  background: #fff;
+  color: #111;
+  font-weight: 700;
+}

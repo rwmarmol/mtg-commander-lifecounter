@@ -88,7 +88,7 @@ steps 11-12 come after the cut line.
     the reader's right on every panel.
   - Commit: `feat(ui): add match screen with rotated panels`
 
-- [ ] **8. Commander damage mode** (10 min)
+- [x] **8. Commander damage mode** (10 min)
   - Goal: track commander damage from the UI.
   - Deliverable: a "Commander damage" button on each panel. The receiving panel shows "Return to game",
     and the other panels show the damage dealt to the receiver, with ± adjusting it. Badges read
