@@ -74,3 +74,54 @@ describe('lookupCommander', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 });
+
+describe('searchCommanders', () => {
+  const card = (n: number) => ({ name: `Card ${n}`, image_uris: { art_crop: `https://img/${n}.jpg` } });
+
+  it('returns at most 5 cards with name and art', async () => {
+    const { fetchMock, client } = clientWith(async () =>
+      json({ object: 'list', data: [1, 2, 3, 4, 5, 6, 7].map(card) }),
+    );
+    const result = await client.searchCommanders('card');
+    expect(result.ok && result.cards).toHaveLength(5);
+    expect(result.ok && result.cards[0]).toEqual({ name: 'Card 1', artUrl: 'https://img/1.jpg' });
+    expect(String(fetchMock.mock.calls[0]?.[0])).toContain('/cards/search?q=card');
+  });
+
+  it('skips cards without art and handles double-faced cards', async () => {
+    const { client } = clientWith(async () =>
+      json({
+        data: [{ name: 'No art' }, { name: 'DFC', card_faces: [{ image_uris: { art_crop: ART } }] }],
+      }),
+    );
+    expect(await client.searchCommanders('x')).toEqual({
+      ok: true,
+      cards: [{ name: 'DFC', artUrl: ART }],
+    });
+  });
+
+  it('falls back to a fuzzy lookup when the search finds nothing (typos)', async () => {
+    const fetchMock = vi
+      .fn<typeof fetch>()
+      .mockResolvedValueOnce(json({ object: 'error', code: 'not_found' }, 404))
+      .mockResolvedValueOnce(json({ name: 'Atraxa', image_uris: { art_crop: ART } }));
+    const client = createScryfallClient(fetchMock);
+    expect(await client.searchCommanders('atraxx')).toEqual({
+      ok: true,
+      cards: [{ name: 'Atraxa', artUrl: ART }],
+    });
+    expect(String(fetchMock.mock.calls[1]?.[0])).toContain('/cards/named?fuzzy=atraxx');
+  });
+
+  it('caches by normalized query', async () => {
+    const { fetchMock, client } = clientWith(async () => json({ data: [card(1)] }));
+    await client.searchCommanders('Card');
+    await client.searchCommanders(' card ');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('returns an error instead of throwing when offline', async () => {
+    const client = createScryfallClient(vi.fn<typeof fetch>().mockRejectedValue(new Error('x')));
+    expect(await client.searchCommanders('card')).toEqual({ ok: false, error: 'network' });
+  });
+});

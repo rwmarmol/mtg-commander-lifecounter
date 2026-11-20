@@ -28,9 +28,9 @@ npm run build      # production build
   implementation and a versioned Zod schema. Invalid or outdated data loads as "no match".
 - **No setup screen:** the app opens on the match grid. Tapping a panel's name edits name, commander and color.
   "New game" keeps the players and resets the counters.
-- **Scryfall art:** the commander field in the panel editor is looked up with fuzzy search, debounced
-  (600 ms) to stay under the rate limit and cached in memory. The resolved name and `art_crop` URL are saved
-  in the match; double-faced cards use `card_faces[0]`. Any failure (not found, ambiguous, offline, broken
+- **Scryfall art:** the commander field in the panel editor searches Scryfall, debounced (600 ms) to
+  stay under the rate limit and cached in memory. Up to 5 results show as a list (round avatar + name); a
+  fuzzy lookup covers typos. The picked card's name and `art_crop` URL are saved in the match; double-faced cards use `card_faces[0]`. Any failure (not found, ambiguous, offline, broken
   image) falls back to the player's color and never blocks the match. Art is darkened for legibility.
 - **Damage mode** is UI-only state and is not persisted.
 - **Tests cover logic only** (reducer, storage, Scryfall client). The UI is checked by hand.

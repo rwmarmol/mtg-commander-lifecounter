@@ -15,7 +15,7 @@ steps 11-12 come after the cut line.
    (no life given back).
 5. **Damage mode:** one receiving panel at a time. This is UI state and isn't persisted. Damage *from*
    eliminated opponents can still be adjusted.
-6. **Scryfall:** look up via `/cards/named?fuzzy=` while typing in the panel editor, debounced (600 ms) to respect the
+6. **Scryfall:** look up via `/cards/named?fuzzy=` while typing in the panel editor, debounced (600 ms), as a list of up to 5 results (name + round avatar; search first, fuzzy as typo fallback) to respect the
    rate limit; "Done" uses the result for the text currently typed. Results are cached in memory by
    normalized name. The resolved name and art URL are stored in the persisted match. A failure or
    ambiguous result falls back to the player's color. No API key or `.env` is needed.
